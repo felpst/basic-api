@@ -1,0 +1,347 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Basic API",
+      "description": "Description a simple API",
+      "contact": {
+        "email": "support@example.com",
+        "name": "Support",
+        "utl": "http://example.com.br"
+      },
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/users": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Create a user",
+          "description": "Create a new user",
+          "requestBody": {
+            "description": "Content required for create user",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "Object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "Simple name",
+                    "email": "simpleemail.com.br"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "admin": false,
+                      "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                      "name": "Felps",
+                      "email": "user@mail.com",
+                      "created_at": "2021-03-20T12:00:00.000Z",
+                      "updated_at": "2021-03-20T12:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Unregistered user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "admin": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "error": "This email is already in use."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "List users",
+          "description": "List all users, only for admin",
+          "parameters": [
+            {
+              "in": "headers",
+              "name": "user_id",
+              "description": "User id for serach data",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "Array",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    },
+                    "example": [
+                      {
+                        "admin": true,
+                        "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                        "name": "Felps",
+                        "email": "user@mail.com",
+                        "created_at": "2021-03-20T12:00:00.000Z",
+                        "updated_at": "2021-03-20T12:00:00.000Z"
+                      },
+                      {
+                        "admin": false,
+                        "id": "c54d8169-76ef-4d48-42c1-53f5ff748114",
+                        "name": "Veloso",
+                        "email": "user2@mail.com",
+                        "created_at": "2021-03-20T12:00:00.000Z",
+                        "updated_at": "2021-03-20T12:00:00.000Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "User not found or user is not admin",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "admin": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "error": "You need to be an administrator to list all users."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{user_id}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "User id for serach data",
+              "required": true
+            }
+          ],
+          "tags": [
+            "Users"
+          ],
+          "summary": "Profile user",
+          "description": "Shows user profile",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "Array",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "admin": true,
+                      "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                      "name": "Felps",
+                      "email": "user@mail.com",
+                      "created_at": "2021-03-20T12:00:00.000Z",
+                      "updated_at": "2021-03-20T12:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "admin": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "error": "User not found."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{user_id}/admin": {
+        "patch": {
+          "parameters": [
+            {
+              "name": "user_id",
+              "description": "User id for serach data",
+              "in": "path",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "required": true
+            }
+          ],
+          "tags": [
+            "Users"
+          ],
+          "summary": "Alter user",
+          "description": "Turn user in admin",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "Object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "admin": true,
+                      "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                      "name": "Felps",
+                      "email": "user@mail.com",
+                      "created_at": "2021-03-20T12:00:00.000Z",
+                      "updated_at": "2021-03-20T12:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "admin": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "error": "User not found."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
