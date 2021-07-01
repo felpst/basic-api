@@ -12,11 +12,9 @@ class CreateUserController {
         email,
         name,
       });
-      return response.status(201).send(user);
+      return response.status(201).json(user);
     } catch (error) {
-      return response
-        .status(400)
-        .json({ error: "Error while creating a user." });
+      return response.status(400).json({ error: error.message });
     }
   }
 }
